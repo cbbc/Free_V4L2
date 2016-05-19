@@ -6,11 +6,11 @@
 
 /* Global value */
 static char *dev_name = "/dev/video0";
-static int fd = -1;
-struct buffer *buffers = NULL;
-static unsigned int n_buffers = 0;
-FILE *file_fd = NULL;
 const char *picture_path = "./b0.JPEG";
+static unsigned int n_buffers = 0;
+struct buffer *buffers = NULL;
+static int fd = -1;
+FILE *file_fd = NULL;
 
 /*
  * Read frame
@@ -18,18 +18,21 @@ const char *picture_path = "./b0.JPEG";
 static int read_frame()
 {
     struct v4l2_buffer buf;
+    int count = 5;
 
     CLEAR(buf);
     buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
     buf.memory = V4L2_MEMORY_MMAP;
 
-    if(ioctl(fd , VIDIOC_DQBUF , &buf) < 0)
-	mm_err();
+    while(count--) {
+	if(ioctl(fd , VIDIOC_DQBUF , &buf) < 0)
+	    mm_err();
 
-    fwrite(buffers[buf.index].start , buffers[buf.index].length , 1, file_fd);
+	fwrite(buffers[buf.index].start , buffers[buf.index].length , 1, file_fd);
 
-    if(ioctl(fd, VIDIOC_QBUF , &buf) < 0)
-	mm_err();
+	if(ioctl(fd, VIDIOC_QBUF , &buf) < 0)
+	    mm_err();
+    }
     return 1;
 }
 

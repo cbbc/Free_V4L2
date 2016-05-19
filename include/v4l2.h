@@ -30,21 +30,21 @@
 
 struct buffer 
 {
-	unsigned long int *start;
-	size_t length;
+    unsigned long int *start;
+    size_t length;
 };
 
 struct v4l2 
 {
-	unsigned char *dest_buffers;
-	unsigned char *rgb_buffers;
-	FILE *bmp_fd;
-	long bmp_size;
+    unsigned char *dest_buffers;
+    unsigned char *rgb_buffers;
+    FILE *bmp_fd;
+    long bmp_size;
 
-	void (*open)(void);
-	int (*read)(void);
-	int (*write)(char *buf,int size);
-	void (*close)(void);
+    void (*open)(void);
+    int (*read)(void);
+    int (*write)(char *buf,int size);
+    void (*close)(void);
 };
 
 #define CLEAR(x) memset(&(x) , 0 ,sizeof(x))

@@ -8,15 +8,15 @@
 
 int main()
 {
-	int fd;
+    int fd;
 
-	v4l2_use.open();
+    v4l2_use.open();
 
-	v4l2_use.read();
+    v4l2_use.read();
 
-	v4l2_use.close();
-	close(fd);
-	printf("Hello World\n");
+    v4l2_use.close();
+    close(fd);
+    printf("Hello World\n");
 	
-	return 0;
+    return 0;
 }
