@@ -24,15 +24,22 @@ static int read_frame()
     buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
     buf.memory = V4L2_MEMORY_MMAP;
 
-    while(count--) {
-	if(ioctl(fd , VIDIOC_DQBUF , &buf) < 0)
-	    mm_err();
+#if V4L2_CAPTURE_PICTURE
+    if(ioctl(fd , VIDIOC_DQBUF , &buf) < 0)
+#else
+    if(ioctl(fd , VIDIOC_STREAMON , &buf) < 0)
+#endif
+	mm_err();
 
-	fwrite(buffers[buf.index].start , buffers[buf.index].length , 1, file_fd);
+    fwrite(buffers[buf.index].start , buffers[buf.index].length , 1, file_fd);
 
-	if(ioctl(fd, VIDIOC_QBUF , &buf) < 0)
-	    mm_err();
-    }
+#if V4L2_CAPTURE_PICTURE
+    if(ioctl(fd, VIDIOC_QBUF , &buf) < 0)
+#else
+    if(ioctl(fd, VIDIOC_STREAMOFF , &buf) < 0)
+#endif
+	mm_err();
+
     return 1;
 }
 
