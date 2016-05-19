@@ -6,7 +6,7 @@
 
 /* Global value */
 static char *dev_name = "/dev/video0";
-const char *picture_path = "./b0.JPEG";
+const char *picture_path = "./b0.avi";
 static unsigned int n_buffers = 0;
 struct buffer *buffers = NULL;
 static int fd = -1;
