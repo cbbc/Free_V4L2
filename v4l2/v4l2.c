@@ -4,9 +4,12 @@
  */
 #include "v4l2.h"
 
+#define V4L2_CAPTURE_PICTURE
+#define WIDTH   640
+#define HEIGHT  480
 /* Global value */
 static char *dev_name = "/dev/video0";
-const char *picture_path = "./b0.avi";
+const char *picture_path = "./buddy.JPEG";
 static unsigned int n_buffers = 0;
 struct buffer *buffers = NULL;
 static int fd = -1;
@@ -18,13 +21,13 @@ FILE *file_fd = NULL;
 static int read_frame()
 {
     struct v4l2_buffer buf;
-    int count = 5;
+    int count = 5000;
 
     CLEAR(buf);
     buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
     buf.memory = V4L2_MEMORY_MMAP;
 
-#if V4L2_CAPTURE_PICTURE
+#ifdef V4L2_CAPTURE_PICTURE
     if(ioctl(fd , VIDIOC_DQBUF , &buf) < 0)
 #else
     if(ioctl(fd , VIDIOC_STREAMON , &buf) < 0)
@@ -33,14 +36,14 @@ static int read_frame()
 
     fwrite(buffers[buf.index].start , buffers[buf.index].length , 1, file_fd);
 
-#if V4L2_CAPTURE_PICTURE
+#ifdef V4L2_CAPTURE_PICTURE
     if(ioctl(fd, VIDIOC_QBUF , &buf) < 0)
 #else
     if(ioctl(fd, VIDIOC_STREAMOFF , &buf) < 0)
 #endif
-	mm_err();
-
-    return 1;
+		mm_err();
+    
+	return 1;
 }
 
 /*
