@@ -5,8 +5,6 @@
 #include "v4l2.h"
 
 #define V4L2_CAPTURE_PICTURE
-#define WIDTH   640
-#define HEIGHT  480
 /* Global value */
 static char *dev_name = "/dev/video0";
 const char *picture_path = "./buddy.JPEG";

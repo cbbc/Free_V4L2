@@ -18,6 +18,9 @@
 #include <sys/ioctl.h>
 #include <asm/types.h>
 
+#define WIDTH   640
+#define HEIGHT  480
+
 #define IMG_SIZE  (WIDTH * HEIGHT * 3)
 #define BITCOUNT  24
 
