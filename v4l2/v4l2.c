@@ -68,6 +68,7 @@ static int v4l2_open(void)
     fmt.fmt.pix.width  = WIDTH;
     fmt.fmt.pix.height = HEIGHT;
     fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_MJPEG;
+//    fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;
     fmt.fmt.pix.field = V4L2_FIELD_INTERLACED;
 
     /* Set picture format */
